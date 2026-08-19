@@ -1,0 +1,340 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background: #f6f7fb;
+  color: #17181c;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #e7e8ec;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 0 10px 28px;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: #17181c;
+  color: white;
+}
+
+.new-button {
+  background: #17181c;
+  color: white;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nav-item {
+  background: transparent;
+  padding: 11px 12px;
+  border-radius: 9px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+  color: #62646c;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: #f0f1f5;
+  color: #17181c;
+}
+
+.storage-card {
+  margin-top: auto;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f6f7f9;
+}
+
+.storage-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.storage-bar {
+  height: 6px;
+  border-radius: 20px;
+  background: #dfe1e6;
+  overflow: hidden;
+}
+
+.storage-progress {
+  height: 100%;
+  background: #17181c;
+  border-radius: inherit;
+}
+
+.storage-text {
+  font-size: 11px;
+  color: #73757d;
+  margin-top: 8px;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar {
+  height: 72px;
+  background: white;
+  border-bottom: 1px solid #e7e8ec;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+
+.search {
+  width: 420px;
+  height: 40px;
+  background: #f4f5f7;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  color: #777982;
+}
+
+.search input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  width: 100%;
+}
+
+.profile {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #17181c;
+  color: white;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+}
+
+.content {
+  padding: 32px;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.content-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #777982;
+  font-size: 13px;
+}
+
+.breadcrumb button {
+  background: transparent;
+  cursor: pointer;
+  color: #777982;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.secondary-button,
+.upload-button {
+  padding: 10px 15px;
+  border-radius: 9px;
+  background: white;
+  border: 1px solid #dfe1e6;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.upload-button {
+  background: #17181c;
+  color: white;
+  border-color: #17181c;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.folder-card {
+  background: white;
+  border: 1px solid #e7e8ec;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.folder-card:hover {
+  border-color: #bfc1c8;
+  transform: translateY(-1px);
+}
+
+.folder-icon {
+  font-size: 30px;
+  margin-bottom: 15px;
+}
+
+.folder-name {
+  font-weight: 600;
+}
+
+.files-title {
+  margin-top: 36px;
+}
+
+.file-list {
+  background: white;
+  border: 1px solid #e7e8ec;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.file-row {
+  min-height: 68px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #eeeeef;
+}
+
+.file-row:last-child {
+  border-bottom: 0;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.file-icon {
+  font-size: 24px;
+}
+
+.file-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.file-size {
+  color: #858791;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.download {
+  color: #17181c;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.empty,
+.loading {
+  padding: 30px;
+  color: #888a92;
+  font-size: 13px;
+}
+
+@media (max-width: 800px) {
+  .sidebar {
+    width: 190px;
+  }
+
+  .topbar {
+    padding: 0 18px;
+  }
+
+  .search {
+    width: 260px;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  .content-header {
+    align-items: flex-start;
+    gap: 20px;
+    flex-direction: column;
+  }
+}

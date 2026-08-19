@@ -1,0 +1,38 @@
+services:
+
+  postgres:
+    image: postgres:18
+    container_name: maricloud-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: maricloud_postdb
+      POSTGRES_USER: maricloud_post
+      POSTGRES_PASSWORD: mari/postgres
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+    ports:
+      - "5432:5432"
+
+  minio:
+    image: minio/minio:latest
+    container_name: maricloud-minio
+    restart: unless-stopped
+
+    environment:
+      MINIO_ROOT_USER: maricloud_mini
+      MINIO_ROOT_PASSWORD: mari/minio
+
+    volumes:
+      - /home/mari/Data/MariCloud/storage/minio:/data
+
+    command: server /data --console-address ":9001"
+
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+volumes:
+  postgres_data:
