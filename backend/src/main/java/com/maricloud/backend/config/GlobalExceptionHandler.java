@@ -22,4 +22,31 @@ public class GlobalExceptionHandler {
                         "message", exception.getMessage()
                 ));
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgument(
+            IllegalArgumentException exception
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("message", exception.getMessage()));
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNotFound(
+            ResourceNotFoundException exception
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", exception.getMessage()));
+    }
+
+    @ExceptionHandler(ResourceConflictException.class)
+    public ResponseEntity<Map<String, String>> handleConflict(
+            ResourceConflictException exception
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(Map.of("message", exception.getMessage()));
+    }
 }

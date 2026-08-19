@@ -7,6 +7,8 @@ import io.minio.RemoveObjectArgs;
 import org.springframework.beans.factory.annotation.Value;
 import com.maricloud.backend.folder.Folder;
 import com.maricloud.backend.folder.FolderRepository;
+import com.maricloud.backend.config.NameValidator;
+import com.maricloud.backend.config.ResourceNotFoundException;
 
 import io.minio.PutObjectArgs;
 import io.minio.MinioClient;
@@ -50,11 +52,9 @@ public class FileStorageService {
                     		new RuntimeException("Folder not found"));
 	}
 
-        String originalName = file.getOriginalFilename();
 
-        if (originalName == null || originalName.isBlank()) {
-            throw new IllegalArgumentException("File name is required");
-        }
+        String originalName = NameValidator.validateAndTrim(
+                file.getOriginalFilename(), "File name");
 	long usedStorage = getUsedStorage();
 
 	if (usedStorage + file.getSize() > storageLimitBytes) {
@@ -97,7 +97,7 @@ public class FileStorageService {
 
     public FileMetadata findById(Long id) {
     	return fileMetadataRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("File not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("File not found"));
     }
 
     public Resource download(Long id) throws Exception {
@@ -127,6 +127,12 @@ public class FileStorageService {
 
     	fileMetadataRepository.delete(metadata);
     }
+
+    public FileMetadata rename(Long id, String fileName) {
+        FileMetadata metadata = findById(id);
+        metadata.setFileName(NameValidator.validateAndTrim(fileName, "File name"));
+        return fileMetadataRepository.save(metadata);
+    }
     public long getUsedStorage() {
     	return fileMetadataRepository.findAll()
             .stream()
@@ -135,5 +141,46 @@ public class FileStorageService {
     }
     public long getStorageLimit() {
     return storageLimitBytes;
+    }
+
+    public FileMetadata restore(
+        String fileName,
+        String objectKey,
+        long size,
+        String contentType,
+        LocalDateTime createdAt
+	) {
+    	FileMetadata existing = fileMetadataRepository
+            	.findAll()
+            	.stream()
+            	.filter(file -> objectKey.equals(file.getObjectKey()))
+            	.findFirst()
+            	.orElse(null);
+
+    	if (existing != null) {
+        	return existing;
+    	}
+
+    	FileMetadata metadata = new FileMetadata(
+           	fileName,
+           	objectKey,
+            	size,
+            	contentType,
+            	createdAt,
+           	null
+    	);
+
+    	return fileMetadataRepository.save(metadata);
+    }
+    public FileMetadata moveToFolder(Long fileId, Long folderId) {
+
+    FileMetadata file = findById(fileId);
+
+    Folder folder = folderRepository.findById(folderId)
+            .orElseThrow(() -> new ResourceNotFoundException("Folder not found"));
+
+    	file.setFolder(folder);
+	
+    	return fileMetadataRepository.save(file);
     }
 }

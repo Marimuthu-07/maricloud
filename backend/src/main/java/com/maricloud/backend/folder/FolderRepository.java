@@ -9,4 +9,6 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     List<Folder> findByParentId(Long parentId);
 
     List<Folder> findByParentIsNull();
+
+    boolean existsByParentId(Long parentId);
 }

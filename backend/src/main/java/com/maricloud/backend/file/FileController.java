@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.time.LocalDateTime;
 
 import java.util.List;
 
@@ -86,6 +87,22 @@ public class FileController {
         );
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) throws Exception {
+        fileStorageService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/rename")
+    public ResponseEntity<FileResponse> rename(
+            @PathVariable Long id,
+            @RequestBody FileRenameRequest request
+    ) {
+        return ResponseEntity.ok(toResponse(
+                fileStorageService.rename(id, request.fileName())
+        ));
+    }
+
     private FileResponse toResponse(FileMetadata metadata) {
 
         Long folderId = metadata.getFolder() != null
@@ -101,5 +118,34 @@ public class FileController {
                 metadata.getCreatedAt(),
                 folderId
         );
+    }
+    @PutMapping("/{id}/folder")
+    public ResponseEntity<FileResponse> moveToFolder(
+            @PathVariable Long id,
+            @RequestParam Long folderId
+    ) {
+
+    FileMetadata metadata =
+            fileStorageService.moveToFolder(id, folderId);
+
+    return ResponseEntity.ok(toResponse(metadata));
+    }
+    @PostMapping("/restore")
+    public ResponseEntity<FileMetadata> restore(
+        @RequestParam String fileName,
+        @RequestParam String objectKey,
+        @RequestParam long size,
+        @RequestParam(required = false) String contentType
+	) {
+
+    	FileMetadata metadata = fileStorageService.restore(
+            fileName,
+            objectKey,
+            size,
+            contentType,
+            LocalDateTime.now()
+    	);
+
+    	return ResponseEntity.ok(metadata);
     }
 }

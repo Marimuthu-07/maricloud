@@ -6,9 +6,9 @@ services:
     restart: unless-stopped
 
     environment:
-      POSTGRES_DB: maricloud_postdb
-      POSTGRES_USER: maricloud_post
-      POSTGRES_PASSWORD: mari/postgres
+      POSTGRES_DB: maricloud
+      POSTGRES_USER: maricloud
+      POSTGRES_PASSWORD: mari/post
 
     volumes:
       - postgres_data:/var/lib/postgresql
